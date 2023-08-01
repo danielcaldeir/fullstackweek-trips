@@ -1,7 +1,8 @@
 import { NextAuthProvider } from '@/app/providers/auth'
 import './globals.css'
 import { Inter,Poppins } from 'next/font/google'
-import { Header } from "@/app/components/Header";
+import { Header } from "@/components/Header";//"@/app/components/Header";
+import { Footer } from "@/components/Footer";
 
 const inter = Inter({ subsets: ['latin'] })
 const poppins = Poppins({ subsets: ['latin'] , weight:["400", "500", "600", "700", "800", "900"]})
@@ -18,8 +19,15 @@ export default function RootLayout({ children }: {
       <html lang="en">
         <body className={poppins.className}>
           <NextAuthProvider>
-            <Header />
-            {children}
+            <div className='flex flex-col h-screen'>
+              <div className="h-[94px]">
+                <Header />
+              </div>
+              <div className="flex-1">
+                {children}
+              </div>
+              <Footer />
+            </div>
           </NextAuthProvider>
         </body>
       </html>

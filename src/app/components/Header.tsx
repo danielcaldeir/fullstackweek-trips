@@ -1,13 +1,13 @@
 "use client";
 
-import React, {} from "react";
-import Image, {} from "next/image";
-import Link, {} from "next/link";
+import React, { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { signIn, signOut , useSession} from 'next-auth/react';
 import { AiOutlineMenu } from "react-icons/ai";
 
 export const Header = () => {
-    const [menuIsOpen, setMenuIsOpen] = React.useState(false);
+    const [menuIsOpen, setMenuIsOpen] = useState(false);
 
     const handleLoginClick = () => signIn('google');
 

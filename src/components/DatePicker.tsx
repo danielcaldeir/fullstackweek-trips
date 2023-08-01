@@ -1,11 +1,11 @@
 import React, {LegacyRef, forwardRef} from "react";
 import { twMerge } from "tailwind-merge";
 import _DatePicker, { ReactDatePickerProps, registerLocale } from "react-datepicker";
-import {  } from "date-fns/locale/pt-BR";
+import ptBR from "date-fns/locale/pt-BR";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-// registerLocale("pt-BR", ptBR);
+registerLocale("pt-BR", ptBR);
 
 interface InputProps extends ReactDatePickerProps {
     error?: boolean;
