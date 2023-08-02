@@ -11,6 +11,7 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        "search-background": "url(/world-map.png)",
       },
       colors: {
         primary: '#590808',
@@ -20,6 +21,9 @@ module.exports = {
         grayLighter: '#BBBFBF',
         walterWhite: '#F5F5F5',
         secundary: '#312A4F',
+      },
+      textColor: {
+        dark: "#717171",
       },
     },
   },
