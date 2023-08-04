@@ -10,7 +10,7 @@ interface TripItemProps {
 
 const TripItem = ({ trip }: TripItemProps) => {
     return (
-      <Link href={`/trips/${trip.id}`}>
+      <Link href={`/trips/trip?tripID=${trip.id}`}>
         <div className="flex flex-col">
           <div className="relative h-[280px] w-[280px]">
             <Image

@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, forwardRef, LegacyRef } from "react";
+import React, { ComponentPropsWithoutRef, forwardRef, LegacyRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface InputProps extends ComponentPropsWithoutRef<"input"> {
