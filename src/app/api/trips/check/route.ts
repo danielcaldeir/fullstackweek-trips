@@ -27,6 +27,8 @@ export async function POST(request: Request) {
         error: {
           code: "INVALID_START_DATE",
         },
+        tripStart: new Date(trip.startDate),
+        startDate: new Date(req.startDate),
       }),
       {
         status: 400,
@@ -41,6 +43,8 @@ export async function POST(request: Request) {
         error: {
           code: "INVALID_END_DATE",
         },
+        tripEnd: new Date(trip.endDate),
+        endDate: new Date(req.endDate),
       }),
       {
         status: 400,

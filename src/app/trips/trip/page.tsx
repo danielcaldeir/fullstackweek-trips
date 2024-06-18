@@ -3,11 +3,11 @@
 import React from "react";
 // import { prisma } from "@/lib/prisma";
 import { useSearchParams } from "next/navigation";
-import TripHeader from "@/app/trips/[tripld]/components/TripHeader";
-import TripDescription from "@/app/trips/[tripld]/components/TripDescription";
-import TripHighlights from "@/app/trips/[tripld]/components/TripHighlights";
-import TripLocation from "@/app/trips/[tripld]/components/TripLocation";
-// import TripReservation from "@/app/trips/[tripld]/components/TripReservation";
+import TripHeader from "@/app/trips/[tripId]/components/TripHeader";
+import TripDescription from "@/app/trips/[tripId]/components/TripDescription";
+import TripHighlights from "@/app/trips/[tripId]/components/TripHighlights";
+import TripLocation from "@/app/trips/[tripId]/components/TripLocation";
+import TripReservation from "@/app/trips/[tripId]/components/TripReservation";
 
 // const getTripDetails = async (tripId: string) => {
 //     const trip = await prisma.trip.findUnique({
@@ -18,9 +18,14 @@ import TripLocation from "@/app/trips/[tripld]/components/TripLocation";
 //     });
 //     return trip;
 // };
+interface TripDetailsProps {
+  params: { 
+    tripId: string 
+  };
+}
 
-const TripUniqueDetails = async ({ params }: { params: { tripId: string } }) => {
-    console.log(params);
+const TripUniqueDetails = async ({ params: { tripId } }: TripDetailsProps) => {
+    // console.log(params);
     const searchParams = useSearchParams();
     // const trip = await getTripDetails(params.tripId);
     console.log(searchParams);
@@ -36,7 +41,7 @@ const TripUniqueDetails = async ({ params }: { params: { tripId: string } }) => 
       <div className="container mx-auto lg:px-40 lg:pt-10">
         <TripHeader trip={trip} />
         <div className="flex flex-col lg:flex-row lg:mt-12 lg:gap-20">
-          {/* <div className="lg:order-2">
+          <div className="lg:order-2">
             <TripReservation
               tripId={trip.id}
               pricePerDay={trip.pricePerDay as any}
@@ -44,7 +49,7 @@ const TripUniqueDetails = async ({ params }: { params: { tripId: string } }) => 
               tripEndDate={trip.endDate}
               maxGuests={trip.maxGuests}
             />
-          </div> */}
+          </div>
           <div className="lg:order-1">
             <TripDescription description={trip.description} />
             <TripHighlights highlights={trip.highlights} />

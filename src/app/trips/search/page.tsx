@@ -3,26 +3,43 @@
 import TripItem from "@/components/TripItem";
 import { Trip } from "@prisma/client";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-const Trips = () => {
-    const [trips, setTrips] = React.useState<Trip[]>([]);
+interface TripsProps {
+  params: { 
+    // tripId?: string ,
+    text?: string,
+    startDate?: string,
+    budget?: string,
+  };
+}
+
+const Trips = ({params: {text, startDate, budget}}:TripsProps) => {
+    const [trips, setTrips] = useState<Trip[]>([]);
   
     const searchParams = useSearchParams();
+    // if (searchParams?.has("text")){
+    //   text: searchParams?.get("text");
+    // }
+    const searchFor = {
+      text: searchParams?.get("text"),
+      startDate: searchParams?.get("startDate"),
+      budget: searchParams?.get("budget"),
+    }
   
     useEffect(() => {
       const fetchTrips = async () => {
+        // if (!searchFor) return;
         const response = await fetch(
-          `/api/trips/search?text=${searchParams.get("text") ?? ""}&startDate=${searchParams.get("startDate")}&budget=${searchParams.get("budget")}`
+          `/api/trips/search?text=${searchFor.text ?? ""}&startDate=${searchFor.startDate ?? "null"}&budget=${searchFor.budget ?? "null"}`
         );
-  
         const data = await response.json();
-  
         setTrips(data);
       };
   
       fetchTrips();
     }, []);
+    // }, [searchFor]);
   
     return (
       <div className="container mx-auto flex flex-col items-center lg:items-start p-5 lg:pt-10">
