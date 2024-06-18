@@ -5,6 +5,7 @@ import Input from "@/components/Input";
 // import { useRouter } from "next-navigation";
 import { differenceInDays } from "date-fns";
 import { Controller, useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 interface TripReservationProps {
     tripId: string;
@@ -30,7 +31,7 @@ const TripReservation = ({ tripId, maxGuests, tripStartDate, tripEndDate, priceP
       setError,
     } = useForm<TripReservationForm>();
   
-    // const router = useRouter();
+    const router = useRouter();
   
     const onSubmit = async (data: TripReservationForm) => {
       const response = await fetch("/api/trips/check", {
@@ -46,6 +47,8 @@ const TripReservation = ({ tripId, maxGuests, tripStartDate, tripEndDate, priceP
   
       const res = await response.json();
   
+      console.log(res.error);
+      console.log(res);
       if (res?.error?.code === "TRIP_ALREADY_RESERVED") {
         setError("startDate", {
           type: "manual",
@@ -72,9 +75,9 @@ const TripReservation = ({ tripId, maxGuests, tripStartDate, tripEndDate, priceP
         });
       }
 
-      // router.push(
-      //   `/trips/${tripId}/confirmation?startDate=${data.startDate?.toISOString()}&endDate=${data.endDate?.toISOString()}&guests=${data.guests}`
-      // );
+      router.push(
+        `/trips/${tripId}/confirmation?startDate=${data.startDate?.toISOString()}&endDate=${data.endDate?.toISOString()}&guests=${data.guests}`
+      );
 
     };
   
