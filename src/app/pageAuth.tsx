@@ -11,15 +11,11 @@ export default function Home() {
             <main className="flex min-h-screen flex-col items-center justify-between p-24">
                 <h1>Home Pages</h1>
                 <div> Ola, {session.user?.name}</div>
-                <img src={session.user?.image ?? ''}  alt='' />
+                <Image src={session.user?.image ?? ''} alt='' />
                 <div>E-Mail: {session.user?.email}</div>
                 <div>
                     <button onClick={() => signOut(false)}>Sair</button>
                 </div>
-
-                
-
-                
             </main>
         );
     }
@@ -31,10 +27,6 @@ export default function Home() {
       <div>
         <button onClick={() => signIn('google')}>Login</button>
       </div>
-
-      
-
-      
     </main>
   )
 }
