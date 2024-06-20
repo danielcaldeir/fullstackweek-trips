@@ -14,6 +14,7 @@ export async function POST(request: Request) {
   if (!trip) {
     return new NextResponse(
       JSON.stringify({
+        success: false,
         error: {
           code: "TRIP_NOT_FOUND",
         },
@@ -24,6 +25,7 @@ export async function POST(request: Request) {
   if (isBefore(new Date(req.startDate), new Date(trip.startDate))) {
     return new NextResponse(
       JSON.stringify({
+        success: false,
         error: {
           code: "INVALID_START_DATE",
         },
@@ -40,6 +42,7 @@ export async function POST(request: Request) {
   if (isBefore(new Date(trip.endDate), new Date(req.endDate))) {
     return new NextResponse(
       JSON.stringify({
+        success: false,
         error: {
           code: "INVALID_END_DATE",
         },
@@ -68,6 +71,7 @@ export async function POST(request: Request) {
   if (reservations.length > 0) {
     return new NextResponse(
       JSON.stringify({
+        success: false,
         error: {
           code: "TRIP_ALREADY_RESERVED",
         },

@@ -4,26 +4,29 @@ import Button from "@/components/Button";
 import { Trip } from "@prisma/client";
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
+import { toast } from "react-toastify";
 
 interface TripConfirmationProps {
-    params: { 
-        tripId?: string,
-    };
-  }
+  params: { 
+      tripId?: string,
+  };
+}
 
 const TripConfirmation = ({ params: { tripId } }: TripConfirmationProps) => {
   const [trip, setTrip] = useState<Trip | null>();
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
+  const router = useRouter();
+  const { status, data } = useSession();
   const searchParams = useSearchParams();
 
   useEffect(() => {
     const fetchTrip = async () => {
-        // const tripID = params;
       const response = await fetch(`http://localhost:3000/api/trips/check`, {
         method: "POST",
         body: JSON.stringify({
@@ -32,23 +35,59 @@ const TripConfirmation = ({ params: { tripId } }: TripConfirmationProps) => {
           endDate: searchParams?.get("endDate"),
         }),
       });
-      console.log(searchParams);
-      console.log(tripId);
+      // console.log(searchParams);
+      // console.log(tripId);
 
-      const { trip, totalPrice } = await response.json();
+      // const { trip, totalPrice } = await response.json();
+      const res = await response.json();
 
-      setTrip(trip);
-      setTotalPrice(totalPrice);
+      if (res?.error) {
+        return router.push("/");
+      }
+
+      setTrip(res.trip);
+      setTotalPrice(res.totalPrice);
     };
 
+    if (status === "unauthenticated") {
+      router.push("/");
+    }
+
     fetchTrip();
-  }, []);
+  }, [status, searchParams, router]);
 
   if (!trip) return null;
 
+  const handleBuyClick = async () => {
+    const res = await fetch("http://localhost:3000/api/hello", {
+      method: "POST",
+      body: Buffer.from(
+        JSON.stringify({
+          tripId: tripId,
+          startDate: searchParams?.get("startDate"),
+          endDate: searchParams?.get("endDate"),
+          guests: Number(searchParams?.get("guests")),
+          userId: (data?.user as any)?.id!,
+          totalPaid: totalPrice,
+        })
+      ),
+    });
+
+    console.log(res);
+    console.log(data);
+    if (!res.ok) {
+      return toast.error("Ocorreu um erro ao realizar a reserva!", { position: "bottom-center" });
+    }
+
+    return toast.error("Ocorreu um erro ao realizar a reserva!", { position: "bottom-center" });
+    // router.push("/");
+
+    // toast.success("Reserva realizada com sucesso!", { position: "bottom-center" });
+  };
+
   const startDate = new Date(searchParams?.get("startDate") as string);
   const endDate = new Date(searchParams?.get("endDate") as string);
-  const guests = searchParams?.get("guests");
+  const guests = Number(searchParams?.get("guests"));
 
   return (
     <div className="container mx-auto p-5">
@@ -95,7 +134,9 @@ const TripConfirmation = ({ params: { tripId } }: TripConfirmationProps) => {
         <h3 className="font-semibold mt-5">Hóspedes</h3>
         <p>{guests} hóspedes</p>
 
-        <Button className="mt-5">Finalizar Compra</Button>
+        <Button className="mt-5" onClick={handleBuyClick}>
+          Finalizar Compra
+        </Button>
       </div>
     </div>
   );
