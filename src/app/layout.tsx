@@ -3,6 +3,7 @@ import './globals.css'
 import { Inter,Poppins } from 'next/font/google'
 import { Header } from "@/components/Header";//"@/app/components/Header";
 import { Footer } from "@/components/Footer";
+import ToastProvider from '@/providers/toast';
 
 const inter = Inter({ subsets: ['latin'] })
 const poppins = Poppins({ subsets: ['latin'] , weight:["400", "500", "600", "700", "800", "900"]})
@@ -19,15 +20,17 @@ export default function RootLayout({ children }: {
       <html lang="en">
         <body className={poppins.className}>
           <NextAuthProvider>
-            <div className='flex flex-col h-screen'>
-              <div className="h-[94px]">
-                <Header />
+            <ToastProvider>
+              <div className='flex flex-col h-screen'>
+                <div className="h-[94px]">
+                  <Header />
+                </div>
+                <div className="flex-1">
+                  {children}
+                </div>
+                <Footer />
               </div>
-              <div className="flex-1">
-                {children}
-              </div>
-              <Footer />
-            </div>
+            </ToastProvider>
           </NextAuthProvider>
         </body>
       </html>
