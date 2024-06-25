@@ -8,6 +8,7 @@ import TripDescription from "@/app/trips/[tripId]/components/TripDescription";
 import TripHighlights from "@/app/trips/[tripId]/components/TripHighlights";
 import TripLocation from "@/app/trips/[tripId]/components/TripLocation";
 import TripReservation from "@/app/trips/[tripId]/components/TripReservation";
+import { useSession } from "next-auth/react";
 
 // const getTripDetails = async (tripId: string) => {
 //     const trip = await prisma.trip.findUnique({
@@ -26,8 +27,9 @@ interface TripDetailsProps {
 
 const TripUniqueDetails = async ({ params: { tripId } }: TripDetailsProps) => {
     // console.log(params);
-    const searchParams = useSearchParams();
     // const trip = await getTripDetails(params.tripId);
+    const { data } = useSession();
+    const searchParams = useSearchParams();
     console.log(searchParams);
     const tripID = searchParams?.get("tripID");
     console.log(tripID);
@@ -44,6 +46,7 @@ const TripUniqueDetails = async ({ params: { tripId } }: TripDetailsProps) => {
           <div className="lg:order-2">
             <TripReservation
               tripId={trip.id}
+              userId= {(data?.user as any)?.id}
               pricePerDay={trip.pricePerDay as any}
               tripStartDate={trip.startDate}
               tripEndDate={trip.endDate}

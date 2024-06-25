@@ -57,7 +57,8 @@ export async function POST(request: Request) {
 
   const reservations = await prisma.tripReservation.findMany({
     where: {
-      tripId: req.tripId,
+      // tripId: req.tripId,
+      userId: req.userId,
       // VERIFICA SE EXISTE RESERVA ENTRE AS DATAS
       startDate: {
         lte: new Date(req.endDate),

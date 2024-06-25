@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 
 interface TripReservationProps {
     tripId: string;
+    userId: string;
     tripStartDate: Date;
     tripEndDate: Date;
     maxGuests: number;
@@ -21,7 +22,7 @@ interface TripReservationForm {
     endDate: Date | null;
 }
 
-const TripReservation = ({ tripId, maxGuests, tripStartDate, tripEndDate, pricePerDay }: TripReservationProps) => {
+const TripReservation = ({ tripId, userId, maxGuests, tripStartDate, tripEndDate, pricePerDay }: TripReservationProps) => {
     const {
       register,
       handleSubmit,
@@ -41,6 +42,7 @@ const TripReservation = ({ tripId, maxGuests, tripStartDate, tripEndDate, priceP
             startDate: data.startDate,
             endDate: data.endDate,
             tripId,
+            userId,
           })
         ),
       });
@@ -49,6 +51,13 @@ const TripReservation = ({ tripId, maxGuests, tripStartDate, tripEndDate, priceP
   
       console.log(res.error);
       console.log(res);
+      if (res?.error?.code === "TRIP_NOT_FOUND") {
+        return setError("guests", {
+          type: "manual",
+          message: "Viagem Inválida.",
+        });
+      }
+
       if (res?.error?.code === "TRIP_ALREADY_RESERVED") {
         setError("startDate", {
           type: "manual",

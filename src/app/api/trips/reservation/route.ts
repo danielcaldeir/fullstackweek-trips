@@ -49,6 +49,12 @@ export async function POST(request: Request) {
   return new NextResponse(
     JSON.stringify({
       success: true,
+      startDate: startDate, 
+      endDate: endDate, 
+      userId: userId, 
+      tripId: tripId, 
+      totalPaid: totalPaid, 
+      guests: guests,
     }),
     { status: 201 }
   );
